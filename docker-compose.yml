@@ -1,0 +1,16 @@
+services:
+  easyimage:
+    image: ddsderek/easyimage
+    container_name: easyimage
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+      - PUID=0
+      - PGID=0
+    volumes:
+      # 【核心修复】将宿主机源码目录映射到容器要求的 /app/web
+      - /root/data/easyimage/EasyImages2.0:/app/web
+      - /root/data/easyimage/EasyImages2.0/config:/app/web/config
+      - /root/data/easyimage/EasyImages2.0/i:/app/web/i
+    ports:
+      - "80:80"
