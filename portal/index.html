@@ -6,15 +6,20 @@
     <title>Roxyweal | Portal</title>
     <style>
         :root { --bg: #0a0a0a; --text: #ffffff; }
-        body { background: var(--bg); color: var(--text); font-family: -apple-system, sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .container { text-align: center; width: 95%; max-width: 1200px; padding: 40px 0; }
-        h1 { font-size: 2.8rem; font-weight: 200; letter-spacing: 12px; margin-bottom: 5rem; text-transform: uppercase; opacity: 0.9; }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { text-align: center; width: 90%; max-width: 1200px; padding: 40px 0; }
         
+        /* 响应式标题：手机端缩小字号 */
+        h1 { font-size: 2.8rem; font-weight: 200; letter-spacing: 12px; margin-bottom: 5rem; text-transform: uppercase; opacity: 0.9; }
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; letter-spacing: 8px; margin-bottom: 3rem; }
+        }
+
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         
         .card { 
             position: relative; 
-            height: 450px; 
+            height: 450px; /* 电脑端高度 */
             border-radius: 8px; 
             overflow: hidden; 
             display: flex; 
@@ -27,7 +32,12 @@
             border: 1px solid #222;
         }
 
-        /* 核心：图片背景层 */
+        /* 响应式卡片：手机端降低高度 */
+        @media (max-width: 768px) {
+            .card { height: 280px; }
+            .grid { grid-template-columns: 1fr; } /* 手机端强制单列 */
+        }
+
         .card-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -37,24 +47,23 @@
             z-index: 1;
         }
         
-        /* 核心：暗色遮罩层 */
         .card-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* 初始遮罩深度 */
+            background: rgba(0, 0, 0, 0.5);
             transition: background 0.5s ease;
             z-index: 2;
         }
 
         .card:hover .card-bg { transform: scale(1.1); }
-        .card:hover .card-overlay { background: rgba(0, 0, 0, 0.3); } /* 鼠标悬停时变亮 */
+        .card:hover .card-overlay { background: rgba(0, 0, 0, 0.3); }
         .card:hover { border-color: #777; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 
         .card-content { position: relative; z-index: 3; text-align: center; }
         .card h2 { font-size: 1.8rem; font-weight: 300; letter-spacing: 4px; margin: 0; }
         .card p { font-size: 0.8rem; opacity: 0.6; letter-spacing: 2px; margin-top: 10px; text-transform: uppercase; }
 
-        /* 指定具体图片路径 */
+        /* 背景图路径 */
         .bg-works { background-image: url('./bg/works.jpg'); }
         .bg-wallpaper { background-image: url('./bg/wallpaper.jpg'); }
         .bg-game { background-image: url('./bg/game.jpg'); }
