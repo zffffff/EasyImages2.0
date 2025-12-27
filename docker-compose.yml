@@ -9,27 +9,25 @@ services:
       - PUID=0
       - PGID=0
     volumes:
-      - /root/data/easyimage/EasyImages2.0:/app/web
-      - /root/data/easyimage/EasyImages2.0/config:/app/web/config
-      - /root/data/easyimage/EasyImages2.0/i:/app/web/i
+      - .:/app/web # 用点号代表当前目录，更简洁
+      - ./config:/app/web/config
+      - ./i:/app/web/i
 
-  # 2. 门户主页
   portal:
     image: nginx:alpine
     container_name: roxyweal-portal
     restart: always
     volumes:
-      - /root/data/portal:/usr/share/nginx/html
+      - ./portal:/usr/share/nginx/html # 修改为相对路径
 
-  # 3. 极简流量调度员（代替重型 NPM）
   gateway:
     image: nginx:alpine
     container_name: roxyweal-gateway
     restart: always
     ports:
-      - "80:80" # 只占领 80 端口，不再需要暴露 8080 或 8081
+      - "80:80"
     volumes:
-      - /root/data/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # 修改为相对路径
     depends_on:
       - easyimage
       - portal
