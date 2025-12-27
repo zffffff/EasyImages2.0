@@ -46,8 +46,8 @@ if ($config['notice_status'] > 0) : ?>
   <?php /** 页脚自定义代码 */ echo $config['footer']; ?>
   <p>
     <!-- 页脚信息 -->
-    <a href="https://github.com/icret/EasyImages2.0" target="_blank" rel="nofollow" data-toggle="tooltip" title="Github Releases">© Since 2018</a>
-    <a href="https://png.cm/" target="_blank" data-toggle="tooltip" title="简单图床官网">EasyImage</a>
+    <a href="https://roxyweal.work" target="_blank" rel="nofollow" data-toggle="tooltip" title="Roxyweal">© Since 2018</a>
+    <a href="https://store.steampowered.com/app/4228750/Chrono_Spin/" target="_blank" data-toggle="tooltip" title="旋域纪元">Chrono Spin</a>
     <a href="/app/DMCA.php" target="_blank" data-toggle="tooltip" title="使用协议">DMCA</a>
     <!-- 二维码按钮 -->
     <a data-toggle="modal" href="#qr"><i class="icon icon-qrcode hidden-xs inline-block" data-toggle="tooltip" title="二维码"></i></a>
