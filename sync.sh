@@ -1,39 +1,47 @@
 #!/bin/bash
 
-# ====================================================
-# Roxyweal 站点一键同步脚本 (排除故障版)
-# ====================================================
+# 定义颜色
+G='\033[0;32m' # 绿色
+B='\033[0;34m' # 蓝色
+R='\033[0;31m' # 红色
+NC='\033[0m'   # 无颜色
 
-# 确保脚本遇到任何错误即停止执行
-set -e
+# 获取当前脚本所在目录
+BASE_DIR="/root/data/easyimage/EasyImages2.0"
+cd $BASE_DIR
 
-cd /root/data/easyimage/EasyImages2.0/
+echo -e "${B}🚀 开始执行 Roxyweal 全网同步任务...${NC}"
 
-echo "🚀 开始执行全网同步任务..."
-
-# 1. GitHub 同步
-echo "📦 [1/3] 提交代码至 GitHub..."
+# --- 第一步：同步代码到 GitHub ---
+echo -e "\n${B}[1/3] 同步代码至 GitHub (不含大图)...${NC}"
 git add .
-git commit -m "Auto sync at $(date '+%Y-%m-%d %H:%M:%S')" || echo "没有检测到需要提交的代码改动"
-git push || { echo "❌ GitHub 推送失败"; exit 1; }
+# 检查是否有文件变动
+if git diff-index --quiet HEAD --; then
+    echo -e "${G}✅ 代码无变动，跳过提交。${NC}"
+else
+    git commit -m "update: site maintenance $(date '+%Y-%m-%d %H:%M:%S')"
+    if git push origin master; then
+        echo -e "${G}✅ 代码推送成功！${NC}"
+    else
+        echo -e "${R}❌ GitHub 推送失败，请检查网络或冲突。${NC}"
+    fi
+fi
 
-# 2. Cloudflare R2 同步
-# 核心修正：显式排除坏掉的 application 链接，并使用 --links 而非 --copy-links
-echo "☁️ [2/3] 正在同步至 R2 存储桶: easyimage-backup..."
-rclone sync /root/data/easyimage/EasyImages2.0 r2:easyimage-backup \
-    --exclude ".git/**" \
-    --exclude "application" \
-    --links \
-    --ignore-errors || { echo "❌ R2 同步失败，请检查 R2 桶是否存在及 Token 权限"; exit 1; }
+# --- 第二步：同步全量数据到 Cloudflare R2 ---
+echo -e "\n${B}[2/3] 备份全量数据至 Cloudflare R2...${NC}"
+# 使用 -P 显示实时进度
+if rclone sync $BASE_DIR easyimage-r2:easyimage-backup -P --exclude-from .gitignore; then
+    echo -e "${G}✅ R2 存储桶同步完成。${NC}"
+else
+    echo -e "${R}❌ R2 同步过程中出现错误。${NC}"
+fi
 
-# 3. Google Drive 同步
-echo "💾 [3/3] 正在同步镜像至 Google Drive..."
-rclone sync /root/data/easyimage/EasyImages2.0 gdrive:EasyImagesBackup \
-    --exclude ".git/**" \
-    --exclude "application" \
-    --links \
-    --ignore-errors || { echo "❌ Google Drive 同步失败"; exit 1; }
+# --- 第三步：同步全量数据到 Google Drive ---
+echo -e "\n${B}[3/3] 备份全量数据至 Google Drive...${NC}"
+if rclone sync $BASE_DIR gdrive-backup:EasyImageBackup -P --exclude-from .gitignore; then
+    echo -e "${G}✅ Google Drive 备份完成。${NC}"
+else
+    echo -e "${R}❌ Google Drive 同步过程中出现错误。${NC}"
+fi
 
-echo "---------------------------------------"
-echo "🎉 所有备份与同步任务已真正圆满完成！"
-echo "---------------------------------------"
+echo -e "\n${G}✨ 所有任务已圆满完成！你的站点现在很安全。${NC}"

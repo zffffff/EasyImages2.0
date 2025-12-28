@@ -41,25 +41,23 @@ if ($config['notice_status'] > 0) : ?>
 </div>
 <!-- 占位符 -->
 <div class="col-md-12 clo-xs-12" style="margin-bottom: 108px;position:relative;"></div>
-<footer class="container text-muted small navbar-fixed-bottom" style="text-align: center;background-color:rgba(255,255,255,0.7);z-index: 0;">
-  <hr>
-  <?php /** 页脚自定义代码 */ echo $config['footer']; ?>
-  <p>
-    <!-- 页脚信息 -->
-    <a href="https://roxyweal.work" target="_blank" rel="nofollow" data-toggle="tooltip" title="Roxyweal">© Since 2018</a>
-    <a href="https://store.steampowered.com/app/4228750/Chrono_Spin/" target="_blank" data-toggle="tooltip" title="旋域纪元">Chrono Spin</a>
-    <a href="/app/DMCA.php" target="_blank" data-toggle="tooltip" title="使用协议">DMCA</a>
-    <!-- 二维码按钮 -->
-    <a data-toggle="modal" href="#qr"><i class="icon icon-qrcode hidden-xs inline-block" data-toggle="tooltip" title="二维码"></i></a>
-    <?php /** 暗黑模式 */ if ($config['dark-mode']) : ?>
-      <a id="dark" data-toggle="tooltip" title="暗黑模式"><i class="icon icon-lightbulb" id="dark_ico"></i></a>
-    <?php endif; ?>
-    <?php /**登录与退出 */ if (is_who_login('admin') || is_who_login('guest')) : ?>
-      <a href="<?php echo $config['domain']; ?>/admin/index.php?login=logout" data-toggle="tooltip" title="退出账号"><i class="icon icon-signout"></i></a>
-    <?php else : ?>
-      <a href="<?php echo $config['domain']; ?>/admin/index.php" data-toggle="tooltip" title="账号登录"><i class="icon icon-user"></i></a>
-    <?php endif; ?>
-  </p>
+<footer class="container text-muted small navbar-fixed-bottom" style="text-align: center; background-color:rgba(10,10,10,0.85); backdrop-filter: blur(10px); z-index: 100; border-top: 1px solid #222; padding: 15px 0;">
+  <div style="margin-bottom: 8px;">
+    <?php /** 页脚自定义代码 */ echo $config['footer']; ?>
+  </div>
+  <p style="letter-spacing: 1px; font-size: 0.75rem;">
+    <a href="https://roxyweal.work" target="_blank" style="color: #666; margin-right: 15px;">© Since 2018 ROXYWEAL</a>
+    <a href="https://store.steampowered.com/app/4228750/Chrono_Spin/" target="_blank" style="color: #666; margin-right: 15px;">CHRONO SPIN</a>
+    
+    <span style="color: #333; margin: 0 10px;">|</span>
+    <span style="color: #444;">Powered by <a href="https://png.cm" target="_blank" style="color: #555; text-decoration: none;">EasyImage (Icret)</a></span>
+
+    <span style="margin-left: 15px;">
+      <a data-toggle="modal" href="#qr" style="color: #444;"><i class="icon icon-qrcode"></i></a>
+      <?php if ($config['dark-mode']) : ?>
+        <a id="dark" style="color: #444; margin-left: 10px;"><i class="icon icon-lightbulb"></i></a>
+      <?php endif; ?>
+    </p>
 </footer>
 <script type="application/javascript" src="<?php static_cdn(); ?>/public/static/qrcode/qrcode.min.js"></script>
 <script type="application/javascript" src="<?php static_cdn(); ?>/public/static/nprogress/nprogress.min.js"></script>
