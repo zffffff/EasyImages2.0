@@ -1,5 +1,5 @@
 services:
-  # 1. 壁纸站
+  # 1. 壁纸站 (图床核心)
   easyimage:
     image: ddsderek/easyimage
     container_name: easyimage
@@ -9,17 +9,19 @@ services:
       - PUID=0
       - PGID=0
     volumes:
-      - .:/app/web # 用点号代表当前目录，更简洁
+      - .:/app/web # 映射当前目录
       - ./config:/app/web/config
       - ./i:/app/web/i
 
+  # 2. 门户站 (纯静态首页)
   portal:
     image: nginx:alpine
     container_name: roxyweal-portal
     restart: always
     volumes:
-      - ./portal:/usr/share/nginx/html # 修改为相对路径
+      - ./portal:/usr/share/nginx/html # 门户文件映射
 
+  # 3. Nginx 网关 (反向代理 + 作品集托管)
   gateway:
     image: nginx:alpine
     container_name: roxyweal-gateway
@@ -27,7 +29,10 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro # 修改为相对路径
+      # 挂载配置文件
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # 新增：挂载作品集目录，以便 Nginx 直接读取 Hugo 生成的文件
+      - ./portfolio:/usr/share/nginx/html/portfolio
     depends_on:
       - easyimage
       - portal

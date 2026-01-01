@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrono Spin | 旋域纪元 - Official Site</title>
+    <style>
+        :root { --bg: #050505; --accent: #d4af37; --text: #e0e0e0; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        
+        /* 顶部导航 */
+        .nav { position: fixed; top: 0; width: 100%; padding: 20px; background: rgba(5,5,5,0.9); backdrop-filter: blur(10px); z-index: 100; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; box-sizing: border-box; }
+        .nav a { color: #fff; text-decoration: none; margin: 0 20px; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; }
+        .nav a:hover { color: var(--accent); }
+        .logo { font-weight: 900; letter-spacing: 2px; font-size: 1.2rem; color: #fff; margin-left: 20px; }
+
+        /* 首屏 Hero 区域 */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); position: relative; }
+        .hero h1 { font-size: 5rem; margin: 0; text-transform: uppercase; letter-spacing: 10px; background: linear-gradient(to bottom, #fff, #666); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: #888; margin-top: 20px; letter-spacing: 3px; max-width: 600px; line-height: 1.6; }
+        
+        /* 预告片/图片区域 */
+        .media-section { padding: 100px 20px; text-align: center; background: #0a0a0a; }
+        .video-box { width: 100%; max-width: 960px; height: 540px; background: #000; margin: 0 auto; border: 1px solid #333; display: flex; align-items: center; justify-content: center; color: #555; overflow: hidden; }
+
+        /* 新增：让视频 iframe 完美填满容器 */
+        .video-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Steam 购买区域 */
+        .steam-section { padding: 80px 0; background: #000; text-align: center; }
+        .steam-widget { border: none; width: 646px; height: 190px; margin: 0 auto; display: block; }
+
+        /* 页脚 */
+        footer { padding: 40px; text-align: center; font-size: 0.8rem; color: #444; border-top: 1px solid #111; }
+        footer a { color: #666; text-decoration: none; }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .video-box { height: 300px; }
+            .steam-widget { width: 100%; height: 190px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="logo">CHRONO SPIN</div>
+        <div>
+            <a href="https://roxyweal.work">HOME</a>
+            <a href="https://img.roxyweal.work/gallery/index.php">GALLERY</a>
+        </div>
+    </div>
+
+    <div class="hero">
+        <h1>Chrono Spin</h1>
+        <p>打破时间的枷锁，在混沌的旋域中重铸秩序。<br>一款极简风格的硬核弹幕射击游戏。</p>
+    </div>
+
+    <div class="media-section">
+        <div class="video-box" id="videoContainer">
+            <p style="color:#666; letter-spacing: 1px;">Loading Trailer...</p>
+        </div>
+    </div>
+
+    <div class="steam-section">
+        <iframe src="https://store.steampowered.com/widget/4228750/" frameborder="0" class="steam-widget"></iframe>
+    </div>
+
+    <footer>
+        © 2025 Chrono Spin. Developed by Roxyweal. <br>
+        <a href="https://roxyweal.work">Back to Portal</a>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var container = document.getElementById('videoContainer');
+            
+            // 1. YouTube 代码 (添加了 autoplay, mute, loop, playlist 参数实现自动循环静音播放)
+            var youtubeHTML = '<iframe src="https://www.youtube.com/embed/3XoX8ijVqI4?si=9x7XjWde9fVUmjon&autoplay=1&mute=1&loop=1&playlist=3XoX8ijVqI4" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+            
+            // 2. Bilibili 代码 (添加了 autoplay=1, muted=1 参数)
+            // 注意：B站的 iframe 有时在移动端适配不如 YouTube 完美，但这里已经尽量优化
+            var biliHTML = '<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=115800589467874&bvid=BV18avmBzEmx&cid=35047736881&p=1&autoplay=1&muted=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>';
+
+            // 3. 智能判断逻辑
+            // 获取用户时区 (比如 "Asia/Shanghai")
+            var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            // 获取用户语言 (比如 "zh-CN")
+            var lang = navigator.language || navigator.userLanguage;
+
+            console.log("User Location Detect:", timezone, lang);
+
+            // 如果时区包含 Shanghai/Chongqing/Hong_Kong 或者语言包含 zh-cn，则判定为国内用户
+            if (timezone.includes('Shanghai') || timezone.includes('Chongqing') || timezone.includes('Hong_Kong') || lang.toLowerCase().includes('zh-cn')) {
+                container.innerHTML = biliHTML;
+            } else {
+                // 其他情况全部去 YouTube
+                container.innerHTML = youtubeHTML;
+            }
+        });
+    </script>
+</body>
+</html>

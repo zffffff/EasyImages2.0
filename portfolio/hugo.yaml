@@ -1,0 +1,42 @@
+baseURL: "https://roxyweal.work/portfolio/"
+languageCode: "zh-cn"
+title: "Roxyweal Portfolio"
+theme: "PaperMod"
+
+# 核心修复：全部改为 false
+# 这样 Hugo 会生成 "/portfolio/assets/..." 这种标准的绝对路径
+canonifyURLs: false
+relativeURLs: false
+
+params:
+  defaultTheme: dark
+  
+  profileMode:
+    enabled: true
+    title: "Roxyweal"
+    subtitle: "Digital Artist & Developer"
+    imageUrl: "https://img.roxyweal.work/i/2025/12/26/z46nx3.jpg"
+    imageTitle: "Roxyweal"
+    imageWidth: 120
+    imageHeight: 120
+    buttons:
+      - name: Back to Portal
+        url: https://roxyweal.work
+      - name: Gallery
+        url: https://img.roxyweal.work/gallery/index.php
+      - name: My Works
+        url: /portfolio/posts
+
+  footer:
+    copyright: "© 2025 Roxyweal"
+    
+  # 顺手把 favicon 设置一下，防止那个 favicon 404 报错
+  assets:
+    favicon: "https://img.roxyweal.work/favicon.ico" 
+
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
