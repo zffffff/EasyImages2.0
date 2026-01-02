@@ -5,54 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roxyweal | Portal</title>
     <style>
-        :root { --bg: #0a0a0a; --text: #ffffff; }
+        :root { --bg: #0a0a0a; --text: #ffffff; --border: #333; }
         body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .container { text-align: center; width: 90%; max-width: 1200px; padding: 40px 0; }
+        .container { text-align: center; width: 90%; max-width: 1200px; padding: 40px 0; display: flex; flex-direction: column; min-height: 90vh; justify-content: center; }
         
-        /* 响应式标题：手机端缩小字号 */
-        h1 { font-size: 2.8rem; font-weight: 200; letter-spacing: 12px; margin-bottom: 5rem; text-transform: uppercase; opacity: 0.9; }
+        /* 响应式标题 */
+        h1 { font-size: 2.8rem; font-weight: 200; letter-spacing: 12px; margin-bottom: 4rem; text-transform: uppercase; opacity: 0.9; }
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; letter-spacing: 8px; margin-bottom: 3rem; }
+            h1 { font-size: 1.8rem; letter-spacing: 8px; margin-bottom: 2rem; }
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; width: 100%; }
         
         .card { 
             position: relative; 
-            height: 450px; /* 电脑端高度 */
+            height: 450px; 
             border-radius: 8px; 
             overflow: hidden; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            text-decoration: none; 
-            color: white; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            text-decoration: none; color: white; border: 1px solid #222;
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border: 1px solid #222;
         }
 
-        /* 响应式卡片：手机端降低高度 */
         @media (max-width: 768px) {
             .card { height: 280px; }
-            .grid { grid-template-columns: 1fr; } /* 手机端强制单列 */
+            .grid { grid-template-columns: 1fr; } 
         }
 
         .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.8s ease;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            transition: transform 0.8s ease; z-index: 1;
         }
         
         .card-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            transition: background 0.5s ease;
-            z-index: 2;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); transition: background 0.5s ease; z-index: 2;
         }
 
         .card:hover .card-bg { transform: scale(1.1); }
@@ -67,11 +55,67 @@
         .bg-works { background-image: url('./bg/works.png'); }
         .bg-wallpaper { background-image: url('./bg/wallpaper.png'); }
         .bg-game { background-image: url('./bg/game.png'); }
+
+        /* --- 新增：底部功能栏样式 --- */
+        .footer-nav {
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* 手机端自动换行 */
+        }
+
+        .mini-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 24px;
+            border: 1px solid #333;
+            border-radius: 50px; /* 胶囊形状 */
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .mini-btn:hover {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+
+        /* 特殊按钮：高亮（比如 Telegram） */
+        .btn-highlight:hover {
+            border-color: #0088cc; /* Telegram 蓝 */
+            color: #0088cc;
+        }
+
+        /* 特殊按钮：友情链接 */
+        .btn-friend:hover {
+            border-color: #d4af37; /* 你的黑金主题色 */
+            color: #d4af37;
+        }
+
+        /* 预留位样式 (虚线) */
+        .btn-reserved {
+            border-style: dashed;
+            opacity: 0.5;
+            cursor: default;
+        }
+        .btn-reserved:hover {
+            border-color: #444;
+            color: #888;
+            transform: none;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Roxyweal</h1>
+        
         <div class="grid">
             <a href="/works/" class="card">
                 <div class="card-bg bg-works"></div>
@@ -80,7 +124,9 @@
                     <h2>作品</h2>
                     <p>Works / Creative</p>
                 </div>
-            </a>            <a href="https://img.roxyweal.work/gallery/index.php" class="card">
+            </a>
+            
+            <a href="https://img.roxyweal.work/gallery/index.php" class="card">
                 <div class="card-bg bg-wallpaper"></div>
                 <div class="card-overlay"></div>
                 <div class="card-content">
@@ -88,6 +134,7 @@
                     <p>Wallpaper / Gallery</p>
                 </div>
             </a>
+            
             <a href="/projects/" class="card">
                 <div class="card-bg bg-game"></div>
                 <div class="card-overlay"></div>
@@ -95,7 +142,27 @@
                     <h2>独立项目</h2>
                     <p>Game / Project</p>
                 </div>
-            </a>        </div>
+            </a>
+        </div>
+
+        <div class="footer-nav">
+            <a href="https://t.me/ai_Meishi" target="_blank" class="mini-btn btn-highlight">
+                Telegram
+            </a>
+
+            <a href="https://www.bgtlx.com/" target="_blank" class="mini-btn btn-friend">
+                Friend: BGTLX
+            </a>
+
+            <a href="#" class="mini-btn btn-reserved">
+                + Coming Soon
+            </a>
+
+            <a href="#" class="mini-btn btn-reserved">
+                + Reserved
+            </a>
+        </div>
+
     </div>
 </body>
 </html>
